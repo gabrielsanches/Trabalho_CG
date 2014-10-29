@@ -31,7 +31,7 @@ public class Calc {
         resultado[1] = y[1] - (yx * n[1]);
         resultado[2] = y[2] - (yx * n[2]);
         float v = (float) Math.sqrt(Math.pow(resultado[0], 2)
-                + Math.pow(resultado[1], 2) + Math.pow(resultado[1], 2));
+                + Math.pow(resultado[1], 2) + Math.pow(resultado[2], 2));
         resultado[0] /= v;
         resultado[1] /= v;
         resultado[2] /= v;
