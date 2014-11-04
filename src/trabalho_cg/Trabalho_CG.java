@@ -16,7 +16,7 @@ public class Trabalho_CG {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
         float VRP[]=new float[3];
         float P[]=new float[3];
         VRP[0]=5;

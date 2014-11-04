@@ -1,8 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
+//observacoes
+//o pontos devem estar da seguinte forma
+// p[0][0]=x;
+// p[1][0]=y;
+// p[2][0]=z;
+// p[3][0]=w;
+// p[0][1]=x;
+// p[1][1]=y;
+// p[2][1]=z;
+// p[3][1]=w;
+
 package trabalho_cg;
 
 
@@ -99,6 +107,104 @@ public class Calc {
         temp[3][0]=1;
         temp=multiplicar_matriz(matriz, temp);
         return temp;
+    }
+    
+    //determinar a posicao observada no src
+    public static float[][] posicao_centro_plano(float Centro_Plano[],float matriz[][]){
+        float temp[][]=new float[4][1];
+        temp[0][0]=Centro_Plano[0];
+        temp[1][0]=Centro_Plano[1];
+        temp[2][0]=Centro_Plano[2];
+        temp[3][0]=1;
+        temp=multiplicar_matriz(matriz, temp);
+        return temp;
+    }
+    
+    //determinar a matriz de projecao perspectiva
+    public static float[][] matriz_perspectiva(float VRPL[][],float PL[][]){    //pelo oq observei na eh necessario a distancia entre vrp e p por isso as duas proximas linhas estao comentadas
+    //public static float[][] matriz_perspectiva(float VRP[], float P[], float VRPL[][],float PL[][]){
+        //float VRP_P = (float) Math.sqrt(Math.pow(VRP[0]-P[0],2)+Math.pow(VRP[1]-P[1],2)+Math.pow(VRP[2]-P[2],2));
+        float VRPL_PL = (float) Math.sqrt(Math.pow(PL[0][0]-VRPL[0][0],2)+Math.pow(PL[1][0]-VRPL[1][0],2)+Math.pow(PL[2][0]-VRPL[2][0],2));
+        
+        //VRPL = VRP'
+        //PL = P'
+        //VRPL_PL distancia de VRPL ate PL
+        
+        float matriz[][]= new float[4][4];
+        matriz[0][0]=1;
+        matriz[1][0]=0;
+        matriz[2][0]=0;
+        matriz[3][0]=0;
+        matriz[0][1]=0;
+        matriz[1][1]=1;
+        matriz[2][1]=0;
+        matriz[3][1]=0;
+        matriz[0][2]=0;
+        matriz[1][2]=0;
+        matriz[2][2]=PL[2][0]/VRPL_PL;
+        matriz[3][2]=PL[2][0]*(VRPL[2][0]/VRPL_PL);
+        matriz[0][3]=0;
+        matriz[1][3]=0;
+        matriz[2][3]=1/VRPL_PL;
+        matriz[3][3]=VRPL[2][0]/VRPL_PL;
+        
+        return matriz;
+    }
+    
+    //monta a matriz composta entre a matriz RT e a Matriz de projecao perspectiva
+    public static float[][] montar_matriz_composta(float RT[][], float perspectiva[][]){
+        return multiplicar_matriz(perspectiva,RT);
+    }
+    
+    //multiplica os pontos pela matriz composta
+    public static float[][] multiplicar_pontos(float pontos[][], float matriz[][]){
+        return multiplicar_matriz(matriz, pontos);
+    }
+    
+    //colocar o objeto em perspectiva
+    public static float[][] objeto_perspectiva(float pontos[][]){
+        float matriz[][]= new float[pontos.length][3];
+        for(int i=0;i<pontos.length;i++){
+            matriz[i][0]=pontos[i][0]/pontos[i][3];
+            matriz[i][1]=pontos[i][1]/pontos[i][3];
+            matriz[i][2]=1;
+        }
+        return matriz;
+    }
+    
+    
+    //monta a maitriz perspetiva para srt
+    // a matriz viewport deve ser da seguinter forma
+    // umin umax
+    // vmin vmax
+    public static float[][] montar_perspetiva_srt(int altura, int largura, float PL[][], int viewport[][]){
+        float window[][]= new float[2][4];
+        window[0][0]=PL[0][0]-largura;
+        window[1][0]=PL[0][0]+largura;
+        window[0][1]=PL[2][0]-altura;
+        window[1][1]=PL[2][0]+altura;
+        window[0][2]=PL[3][0];
+        window[1][2]=PL[3][0];
+        window[0][3]=1;
+        window[1][3]=1;
+        
+        float pers_srt[][]= new float [3][3];
+        pers_srt[0][0]=(viewport[1][0]-viewport[0][0])/(window[1][0]-window[0][0]);
+        pers_srt[1][0]=0;
+        pers_srt[2][0]=window[0][0]*pers_srt[0][0]+viewport[0][0];
+        pers_srt[0][1]=0;
+        pers_srt[1][1]=(viewport[1][1]-viewport[0][1]/(window[1][1]-window[0][1]));
+        pers_srt[2][1]=window[0][1]*pers_srt[1][1]+viewport[0][1];
+        pers_srt[0][2]=0;
+        pers_srt[1][2]=0;
+        pers_srt[2][2]=1;
+        
+        return pers_srt;
+    }
+    
+    //colocar o objeto em coordenadas de tela
+    public static float[][] objeto_cordenadas_tela(float pers_srt[][],float pontos[][]){
+        return multiplicar_matriz(pers_srt, pontos);
     }
     
     
