@@ -30,7 +30,7 @@ public class heightmap {
         return height;
     }
     
-    public static ArrayList<Triangulo> gerar_triangulos_regular(){//arrumar T2
+    public static ArrayList<Triangulo> gerar_triangulos_regular(){
         ArrayList<Triangulo> triangulos = new ArrayList<>();
         Triangulo T; 
         for(int i=0;i<299;i++){
@@ -44,4 +44,13 @@ public class heightmap {
         return triangulos;
     }
     
+    public static float[][] suavizar_heightmap(float inicial[][]){//nao testada      
+        for(int i=1;i<298;i++){
+            for(int j=1;j<298;j++){
+                inicial[2][(i*300)+j]=(float) ((inicial[2][(i*300)-1+j]+inicial[2][(i*300)+j]+inicial[2][(i*300)+1+j])/3.0);
+                inicial[2][(j*300)+i]=(float) ((inicial[2][(j*300)-i+j]+inicial[2][(j*300)+i]+inicial[2][(j*300)+1+i])/3.0);
+            }
+        }
+        return inicial;
+    }
 }
