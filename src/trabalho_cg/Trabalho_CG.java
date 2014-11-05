@@ -6,6 +6,8 @@
 
 package trabalho_cg;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author seven
@@ -48,7 +50,7 @@ public class Trabalho_CG {
 //            System.out.print(u[i]+" ");
 //        }
 //        System.out.println();
-//        
+////        
 //        float rt[][]=Calc.calcular_matriz_RT(VRP, u, v, n);
 //        System.out.println("RT");
 //        for(int i=0;i<4;i++){
@@ -64,10 +66,18 @@ public class Trabalho_CG {
 //        }
 //        System.out.println("");
         
-//        float m[][]=heightmap.gerar_heightmap();
+        float m[][]=heightmap.gerar_heightmap();
 //        for(int i=0;i<m[0].length;i++){
 //            System.out.println(m[0][i]+" "+m[1][i]+" "+m[2][i]+" "+m[3][i]);
 //        }
+
+        ArrayList<Triangulo> T=heightmap.gerar_triangulos_regular();
+        for(Triangulo Tri : T){
+            int a[] = Tri.getTriangulo();
+            System.out.println("X1> "+m[0][a[0]]+"Y1> "+m[1][a[0]]+"Z1> "+m[2][a[0]]);
+            System.out.println("X2> "+m[0][a[1]]+"Y2> "+m[1][a[1]]+"Z2> "+m[2][a[1]]);
+            System.out.println("X3> "+m[0][a[2]]+"Y3> "+m[1][a[2]]+"Z> "+m[2][a[2]]+"\n");
+        }
         
     }
     

@@ -6,6 +6,7 @@
 
 package trabalho_cg;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -28,4 +29,19 @@ public class heightmap {
         }
         return height;
     }
+    
+    public static ArrayList<Triangulo> gerar_triangulos_regular(){//arrumar T2
+        ArrayList<Triangulo> triangulos = new ArrayList<>();
+        Triangulo T; 
+        for(int i=0;i<299;i++){
+            for(int j=0;j<299;j++){
+                T = new Triangulo( (i*300)+1+j, (i*300)+j, (i*300)+j+300);
+                triangulos.add(T);
+                T = new Triangulo((i*300)+j+1, (i*300)+300+j, (i*300)+301+j);
+                triangulos.add(T);
+            }
+        }
+        return triangulos;
+    }
+    
 }
