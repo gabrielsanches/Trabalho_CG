@@ -207,7 +207,6 @@ public class Calc {
         return multiplicar_matriz(pers_srt, pontos);
     }
     
-    
     private static float[][] multiplicar_matriz(float A[][], float[][] B) {
         int mA = A.length;
         int nA = A[0].length;
@@ -216,11 +215,11 @@ public class Calc {
         if (nA != mB) {
             throw new RuntimeException("Illegal matrix dimensions.");
         }
-        float[][] C = new float[mA][nB];
-        for (int i = 0; i < nA; i++) {
-            for (int j = 0; j < nB; j++) {
-                for (int k = 0; k < nA; k++) {
-                    C[i][j] += (A[i][k] * B[k][j]);
+        float[][] C = new float[nB][mA];
+        for (int i = 0; i < mA; i++) {
+            for(int j = 0; j < nB; j++){
+                for(int k = 0; k < nA; k++){
+                    C[j][i] += (A[k][i] * B[j][k]); 
                 }
             }
         }
